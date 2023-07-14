@@ -13,6 +13,3 @@ create table post(
 );
 
 create index post_search_idx on post (user_nickname, title);
-
-select default_character_set_name, default_collation_name FROM information_schema.schemata
-where schema_name = 'fastcampus_toy3';
