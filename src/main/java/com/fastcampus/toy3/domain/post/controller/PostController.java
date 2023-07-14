@@ -8,6 +8,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/post")
 public class PostController {
 
+    @GetMapping
+    public String getIndex() {
+        return "post/index";
+    }
+
     @GetMapping("/write")
     public String getWriteForm() {
         return "post/write-form";
