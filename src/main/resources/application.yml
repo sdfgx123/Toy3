@@ -18,3 +18,5 @@ logging:
         descriptor:
           sql:
             BasicBinder: trace
+
+file.dir: '/Users/joonheejeong/Desktop/fastcampus/KDTBE5_Java/files/'
