@@ -1,7 +1,4 @@
-insert into post (category, title, content, user_nickname)
-values ('새싹', '첫 게시글', '안녕하세요. 첫 게시글입니다.', '초심자새싹');
-
-insert into post (category, title, content, user_nickname)
-values ('우수', '첫 게시글', '안녕하세요. 첫 게시글입니다.', '초심자우수');
+select default_character_set_name, default_collation_name FROM information_schema.schemata
+where schema_name = 'fastcampus_toy3';
 
 select * from post;

@@ -5,7 +5,8 @@ create table post(
     category varchar(2) not null,
     title varchar(30) not null,
     content text(2000),
-    thumbnail mediumblob,
+    uploaded_name varchar(40),
+    stored_name varchar(40),
     user_nickname varchar(10) not null,
     created_at timestamp not null default now(),
     updated_at timestamp not null default now(),
@@ -13,6 +14,3 @@ create table post(
 );
 
 create index post_search_idx on post (user_nickname, title);
-
-select default_character_set_name, default_collation_name FROM information_schema.schemata
-where schema_name = 'fastcampus_toy3';
