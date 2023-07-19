@@ -6,10 +6,13 @@ server:
       force: true
 
 spring:
-  mvc:
-    view:
-      prefix: /WEB-INF/view/
-      suffix: .jsp
+  thymeleaf:
+    prefix: classpath:/templates/
+    suffix: .thymeleaf
+#  mvc:
+#    view:
+#       prefix: /WEB-INF/view/
+#       suffix: .jsp
   datasource:
     url: jdbc:mysql://localhost:3307/toy3?useSSL=false&serverTimezone=UTC
     driver-class-name: com.mysql.cj.jdbc.Driver
