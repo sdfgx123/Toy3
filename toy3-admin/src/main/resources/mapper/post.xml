@@ -5,8 +5,12 @@
 
 <mapper namespace="com.fastcampus.toy3admin.model.post.PostRepository">
 
-    <select id="findAll"></select>
+    <select id="findAll" resultType="com.fastcampus.toy3admin.model.post.Post">
+        SELECT * FROM post_tb
+    </select>
 
-    <delete id="deleteById"></delete>
+    <delete id="deleteById">
+        DELETE FROM post_tb WHERE id = #{id}
+    </delete>
 
 </mapper>
