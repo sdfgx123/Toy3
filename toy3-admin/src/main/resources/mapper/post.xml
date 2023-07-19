@@ -9,7 +9,7 @@
         SELECT * FROM post_tb
     </select>
 
-    <delete id="deleteById">
+    <delete id="deleteById" parameterType="String">
         DELETE FROM post_tb WHERE id = #{id}
     </delete>
 

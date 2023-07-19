@@ -7,8 +7,8 @@ import java.util.List;
 @Mapper
 public interface PostRepository {
 
-    public List<Post> findAll();
+    List<Post> findAll();
 
-    public int deleteById();
+    int deleteById(String id);
 
 }
