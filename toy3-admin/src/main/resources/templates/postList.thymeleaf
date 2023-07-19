@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Simple Thymeleaf Template</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+    <h1 th:text="${title}">Title</h1>
+
+    <p th:text="${message}">Message content</p>
+</body>
+</html>
