@@ -42,10 +42,9 @@ public class PostController {
         return posts;
     }
 
-    @ResponseBody
     @RequestMapping("deletePost")
-    public int deletePost(HttpServletRequest request, Model model) throws Exception {
-        log.info(this.getClass().getName() + "deletePost started");
+    public String deletePost(HttpServletRequest request, Model model) throws Exception {
+        log.info(this.getClass().getName() + "deletePost start");
 
         String id = request.getParameter("id");
         log.info("post number : " + id);
@@ -56,15 +55,19 @@ public class PostController {
         String url = "/postList";
 
         res = postService.deletePost(id);
+        log.info("res : " + res);
 
-        if (res > 0) message = "Deleting post just succeeded.";
-        message = "Deleting post just have failed. Please retry the process.";
+        if (res > 0) {
+            message = "Deleting post task succeeded.";
+        } else {
+            message = "Deleting post process have failed. Please retry the process.";
+        }
 
         model.addAttribute("message", message);
         model.addAttribute("url", url);
 
-        log.info(this.getClass().getName() + "deletePost ended");
+        log.info(this.getClass().getName() + "deletePost end");
 
-        return res;
+        return "/redirect";
     }
 }
