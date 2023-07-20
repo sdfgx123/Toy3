@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{post/header :: common_header (~{::head/title}, ~{::head/link}, ~{::head/script})}">
+  <title>게시글 수정</title>
+</head>
+<body>
+<div class="py-3 text-center">
+  <h2>게시글 수정</h2>
+</div>
+<div class="container-md">
+  <form method="post" enctype="multipart/form-data" th:action="@{/post/update/{postId}(postId=${post.id})}">
+    <div>
+      <input type="text" name="title" maxlength="30" class="form-control" th:value="${post.title}">
+    </div>
+    <hr class="my-4">
+    <div>
+      <textarea name="content" class="form-control" th:text="${post.content}"></textarea>
+    </div>
+    <div>
+      <label for="thumbnail">썸네일</label>
+      <input type="file" id="thumbnail" name="thumbnail" accept="image/*">
+      <div id="preview">
+        <img th:src="@{'/uploads/' + ${post.storedName}}" width="200px" height="200px"
+             alt="썸네일 이미지">
+      </div>
+    </div>
+    <hr class="my-4">
+    <div class="row">
+      <div class="col">
+        <button class="w-100 btn btn-primary btn-lg" type="submit">게시글 수정</button>
+      </div>
+      <div class="col">
+        <button class="w-100 btn btn-secondary btn-lg"
+                onclick="location.href='/post/view/' + ${post.id}"
+                type="button">취소</button>
+      </div>
+    </div>
+  </form>
+</div>
+<script>
+  const fileInput = document.getElementById('thumbnail');
+  const previewDiv = document.getElementById('preview');
+
+  fileInput.addEventListener('change', function(event) {
+    const file = event.target.files[0];
+
+    if (file && file.type.startsWith('image/')) {
+      const reader = new FileReader();
+
+      reader.onload = function(e) {
+        const imageUrl = e.target.result;
+
+        const imageElement = document.createElement('img');
+        imageElement.src = imageUrl;
+        imageElement.style.width = '200px';
+        imageElement.style.height = '200px';
+
+        previewDiv.innerHTML = '';
+        previewDiv.appendChild(imageElement);
+      };
+
+      reader.readAsDataURL(file);
+    }
+  });
+
+</script>
+</body>
+</html>
