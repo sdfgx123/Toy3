@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -35,5 +36,15 @@ public class PostService {
     public Post postView(Long id) {
         return postRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("해당 게시글이 존재하지 않습니다. postId=" + id));
+    }
+
+    @Transactional(readOnly = true)
+    public Optional<Post> findById(Long id) {
+        return postRepository.findById(id);
+    }
+
+    @Transactional
+    public void deleteById(Long id) {
+        postRepository.deleteById(id);
     }
 }

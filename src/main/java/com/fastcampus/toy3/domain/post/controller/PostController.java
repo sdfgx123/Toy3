@@ -1,9 +1,11 @@
 package com.fastcampus.toy3.domain.post.controller;
 
+import com.fastcampus.toy3.domain.post.Post;
 import com.fastcampus.toy3.domain.post.dto.PostWriteForm;
 import com.fastcampus.toy3.domain.post.service.PostService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -48,5 +50,21 @@ public class PostController {
     public String postView(Model model, @PathVariable Long id) {
         model.addAttribute("post", postService.postView(id));
         return "post/post-detail";
+    }
+
+    @PostMapping("/{postId}/delete")
+    public String deletePost(@PathVariable Long postId, Authentication authentication) {
+        Post post = postService.findById(postId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 게시글이 존재하지 않습니다. postId=" + postId));
+
+        // 현재 로그인한 사용자 정보를 가져와서 작성자인지 확인 맞는지 모르겠다ㅠ.ㅠ
+        String currentUsername = authentication.getName();
+        if (!post.getUserNickname().equals(currentUsername)) {
+            throw new IllegalStateException("해당 게시글을 삭제할 권한이 없습니다.");
+        }
+
+        //게시글 목록으로 redirect
+        postService.deleteById(postId);
+        return "redirect:/post/list";
     }
 }
