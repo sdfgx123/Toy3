@@ -3,6 +3,15 @@
 
 <head>
 
+    <style>
+        .content-custom {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 150px;
+        }
+    </style>
+
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 
     <meta charset="utf-8">
@@ -393,7 +402,7 @@
                                         <tr th:each="post : ${posts}">
                                             <td th:text="${post.id}"></td>
                                             <td th:text="${post.title}"></td>
-                                            <td th:text="${post.content}"></td>
+                                            <td class="content-custom" th:text="${post.content}"></td>
                                             <td th:text="${post.userNickname}"></td>
                                             <td th:text="${post.createdAt}"></td>
                                             <td th:text="${post.updatedAt}"></td>

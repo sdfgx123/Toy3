@@ -36,7 +36,7 @@ public class PostController {
 
         log.info(this.getClass().getName() + "postList end");
 
-        return "/postList";
+        return "postList";
     }
 
     @RequestMapping("/deletePost")
@@ -65,7 +65,7 @@ public class PostController {
 
         log.info(this.getClass().getName() + "deletePost end");
 
-        return "/redirect";
+        return "redirect";
     }
 
     @RequestMapping("/")
