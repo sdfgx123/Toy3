@@ -6,6 +6,7 @@ import com.fastcampus.toy3.domain.post.service.PostService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -66,5 +67,40 @@ public class PostController {
         //게시글 목록으로 redirect
         postService.deleteById(postId);
         return "redirect:/post/list";
+    }
+
+    @GetMapping("/{postId}/update")
+    public String getUpdateForm(@PathVariable Long postId, Model model) {
+        Post post = postService.findById(postId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 게시글이 존재하지 않습니다. postId=" + postId));
+
+        // 현재 로그인한 사용자 정보를 가져와서 작성자인지 확인
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentUsername = authentication.getName();
+        if (!post.getUserNickname().equals(currentUsername)) {
+            throw new IllegalStateException("해당 게시글을 수정할 권한이 없습니다.");
+        }
+
+        model.addAttribute("post", post);
+        return "post/post-update-form";
+    }
+
+    @PostMapping("/{postId}/update")
+    public String updatePost(@PathVariable Long postId,
+                             @ModelAttribute PostWriteForm form) throws IOException {
+        // 현재 로그인한 사용자 정보를 가져와서 작성자인지 확인
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentUsername = authentication.getName();
+
+        Post post = postService.findById(postId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 게시글이 존재하지 않습니다. postId=" + postId));
+
+        if (!post.getUserNickname().equals(currentUsername)) {
+            throw new IllegalStateException("해당 게시글을 수정할 권한이 없습니다.");
+        }
+
+        postService.update(postId, form);
+
+        return "redirect:/post/view/" + postId;
     }
 }
