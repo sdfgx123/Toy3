@@ -1,12 +1,21 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Simple Thymeleaf Template</title>
+    <title>처리 결과 안내</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
 <body>
     <h1 th:text="${title}">Title</h1>
 
     <p th:text="${message}">Message content</p>
+
+    <script th:inline="javascript">
+    /*<![CDATA[*/
+        window.onload = function() {
+            alert(/*[[${message}]]*/ '메시지');
+            window.location.href = /*[[${url}]]*/ '/postList';
+        }
+    /*]]>*/
+    </script>
 </body>
 </html>
