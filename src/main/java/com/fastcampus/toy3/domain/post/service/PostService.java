@@ -1,9 +1,13 @@
 package com.fastcampus.toy3.domain.post.service;
 
+import com.fastcampus.toy3.domain.User;
 import com.fastcampus.toy3.domain.post.Post;
 import com.fastcampus.toy3.domain.post.dto.PostWriteForm;
 import com.fastcampus.toy3.domain.post.file.FileManager;
 import com.fastcampus.toy3.domain.post.file.UploadedFile;
+import com.fastcampus.toy3.domain.post.report.Report;
+import com.fastcampus.toy3.domain.post.report.ReportReason;
+import com.fastcampus.toy3.domain.post.report.repository.ReportRepository;
 import com.fastcampus.toy3.domain.post.repository.PostRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -18,6 +22,7 @@ public class PostService {
 
     private final PostRepository postRepository;
     private final FileManager fileManager;
+    private final ReportRepository reportRepository;
 
     @Transactional
     public Long save(PostWriteForm form) throws IOException {
@@ -56,5 +61,17 @@ public class PostService {
         post.update(form.getTitle(), form.getContent());
 
         postRepository.save(post);
+    }
+
+    public void reportPost(Long postId, ReportReason reason, User user) {
+        Post post = findById(postId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 게시글이 존재하지 않습니다. postId=" + postId));
+
+        Report report = Report.builder()
+                .post(post)
+                .user(user)
+                .reason(reason)
+                .build();
+        reportRepository.save(report);
     }
 }

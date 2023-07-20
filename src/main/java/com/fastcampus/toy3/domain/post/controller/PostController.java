@@ -1,7 +1,9 @@
 package com.fastcampus.toy3.domain.post.controller;
 
+import com.fastcampus.toy3.domain.User;
 import com.fastcampus.toy3.domain.post.Post;
 import com.fastcampus.toy3.domain.post.dto.PostWriteForm;
+import com.fastcampus.toy3.domain.post.report.ReportReason;
 import com.fastcampus.toy3.domain.post.service.PostService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -100,6 +102,19 @@ public class PostController {
         }
 
         postService.update(postId, form);
+
+        return "redirect:/post/view/" + postId;
+    }
+
+    @PostMapping("/reportPost")
+    public String reportPost(@RequestParam Long postId, @RequestParam ReportReason reason, Authentication authentication) {
+        if (authentication == null || !authentication.isAuthenticated()) {
+            return "redirect:/login";
+        }
+
+        User currentUser = (User) authentication.getPrincipal();
+
+        postService.reportPost(postId, reason, currentUser);
 
         return "redirect:/post/view/" + postId;
     }
