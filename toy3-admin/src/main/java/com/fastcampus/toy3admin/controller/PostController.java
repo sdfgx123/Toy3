@@ -8,9 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.persistence.Id;
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,9 +23,8 @@ public class PostController {
     @Autowired
     private PostService postService;
 
-    @ResponseBody
-    @RequestMapping("postList")
-    public List<Post> getAllPosts(Model model) throws Exception {
+    @RequestMapping("/postList")
+    public String getAllPosts(Model model) throws Exception {
         log.info(this.getClass().getName() + "postList start");
         List<Post> posts = postService.getPostList();
 
@@ -39,10 +36,10 @@ public class PostController {
 
         log.info(this.getClass().getName() + "postList end");
 
-        return posts;
+        return "/postList";
     }
 
-    @RequestMapping("deletePost")
+    @RequestMapping("/deletePost")
     public String deletePost(HttpServletRequest request, Model model) throws Exception {
         log.info(this.getClass().getName() + "deletePost start");
 
@@ -69,5 +66,10 @@ public class PostController {
         log.info(this.getClass().getName() + "deletePost end");
 
         return "/redirect";
+    }
+
+    @RequestMapping("/")
+    public String main() {
+        return "index";
     }
 }
