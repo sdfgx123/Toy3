@@ -63,6 +63,7 @@ public class PostService {
         postRepository.save(post);
     }
 
+    @Transactional
     public void reportPost(Long postId, ReportReason reason, User user) {
         Post post = findById(postId)
                 .orElseThrow(() -> new IllegalArgumentException("해당 게시글이 존재하지 않습니다. postId=" + postId));
