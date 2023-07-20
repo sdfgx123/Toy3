@@ -1,6 +1,5 @@
 package com.fastcampus.toy3.domain.comment;
 
-import com.fastcampus.toy3.domain.comment.Comment;
 import com.fastcampus.toy3.domain.comment.dto.CommentRequestDto;
 import com.fastcampus.toy3.domain.comment.repository.CommentRepository;
 import lombok.RequiredArgsConstructor;
