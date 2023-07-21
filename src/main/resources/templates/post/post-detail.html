@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{post/header :: common_header (~{::head/title}, ~{::head/link}, ~{::head/script})}">
+  <title>게시글 상세보기</title>
+</head>
+<body>
+<div class="py-3 text-center">
+  <h2>게시글 상세보기</h2>
+</div>
+<div class="container-md">
+  <div>
+    <h3 th:text="${post.title}">게시글 제목</h3>
+    <p th:text="${post.content}">게시글 내용</p>
+    <img th:src="@{'/uploads/' + ${post.storedName}}" width="200px" height="200px"
+         alt="썸네일 이미지">
+  </div>
+  <hr class="my-4">
+  <div>
+    <!-- 댓글 목록 -->
+    <ul class="list-group">
+      <li class="list-group-item" th:each="comment : ${comments}">
+        <span th:text="${comment.nickName}"></span>
+        <span th:text="${comment.createdAt}"></span>
+        <span th:text="${comment.content}"></span>
+        <a th:if="${comment.user.nickname eq user.nickname}" th:href="@{/comment/{commentId}/delete(commentId=${comment.id})}">댓글 삭제</a>
+        <a th:if="${comment.depth == 0}" th:href="@{/comment/replyForm(postId=${post.id}, replyId=${comment.id})}">대댓글</a>
+      </li>
+    </ul>
+  </div>
+  <hr class="my-4">
+  <div>
+    <!-- 댓글 작성 폼 -->
+    <form method="post" th:action="@{/comment/save}">
+      <input type="hidden" name="postId" th:value="${post.id}">
+      <input type="hidden" name="nickName" th:value="${user.nickName}">
+      <div>
+        <textarea name="content" class="form-control" placeholder="댓글 입력 ..."></textarea>
+      </div>
+      <div>
+        <button class="w-100 btn btn-primary btn-lg" type="submit">댓글 작성</button>
+      </div>
+    </form>
+  </div>
+  <hr class="my-4">
+  <div>
+    <!-- 게시글 삭제 버튼 -->
+    <form method="post" th:action="@{/post/post/delete}">
+      <input type="hidden" name="postId" th:value="${post.id}">
+      <button type="submit" th:if="${post.userNickname eq user.nickname}">게시글 삭제</button>
+    </form>
+    <!-- 게시글 수정 버튼 -->
+    <a th:if="${post.userNickname eq user.nickname}" th:href="@{/post/{postId}/update(postId=${post.id})}">게시글 수정</a>
+  </div>
+  <hr class="my-4">
+  <div>
+    <!-- 게시글 신고 버튼 -->
+    <form method="post" th:action="@{/post/reportPost}">
+      <input type="hidden" name="postId" th:value="${post.id}">
+      <label>신고 사유:</label>
+      <select name="reason">
+        <option value="욕설">욕설</option>
+        <option value="음란">음란</option>
+        <option value="비방">비방</option>
+      </select>
+      <input type="file" name="photo" accept="image/*">
+      <button type="submit">게시글 신고</button>
+    </form>
+  </div>
+</div>
+</body>
+</html>

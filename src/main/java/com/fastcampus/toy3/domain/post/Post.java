@@ -40,4 +40,9 @@ public class Post {
         this.storedName = storedName;
         this.userNickname = "임시사용자01";
     }
+
+    public void update(String title, String content){
+        this.title = title;
+        this.content= content;
+    }
 }

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>게시글 신고</title>
+</head>
+<body>
+<h2>게시글 신고</h2>
+<form th:action="@{/post/report}" method="post">
+  <input type="hidden" th:name="postId" th:value="${postId}">
+  <label for="reason">신고 사유:</label>
+  <select id="reason" name="reason">
+    <option value="욕설">욕설</option>
+    <option value="음란">음란</option>
+    <option value="비방">비방</option>
+  </select>
+  <br>
+  <button type="submit">신고</button>
+</form>
+</body>
+</html>
