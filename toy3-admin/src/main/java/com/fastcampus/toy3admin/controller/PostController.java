@@ -8,9 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.persistence.Id;
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,9 +23,8 @@ public class PostController {
     @Autowired
     private PostService postService;
 
-    @ResponseBody
-    @RequestMapping("postList")
-    public List<Post> getAllPosts(Model model) throws Exception {
+    @RequestMapping("/postList")
+    public String getAllPosts(Model model) throws Exception {
         log.info(this.getClass().getName() + "postList start");
         List<Post> posts = postService.getPostList();
 
@@ -39,13 +36,12 @@ public class PostController {
 
         log.info(this.getClass().getName() + "postList end");
 
-        return posts;
+        return "postList";
     }
 
-    @ResponseBody
-    @RequestMapping("deletePost")
-    public int deletePost(HttpServletRequest request, Model model) throws Exception {
-        log.info(this.getClass().getName() + "deletePost started");
+    @RequestMapping("/deletePost")
+    public String deletePost(HttpServletRequest request, Model model) throws Exception {
+        log.info(this.getClass().getName() + "deletePost start");
 
         String id = request.getParameter("id");
         log.info("post number : " + id);
@@ -56,15 +52,24 @@ public class PostController {
         String url = "/postList";
 
         res = postService.deletePost(id);
+        log.info("res : " + res);
 
-        if (res > 0) message = "Deleting post just succeeded.";
-        message = "Deleting post just have failed. Please retry the process.";
+        if (res > 0) {
+            message = "Deleting post task succeeded.";
+        } else {
+            message = "Deleting post process have failed. Please retry the process.";
+        }
 
         model.addAttribute("message", message);
         model.addAttribute("url", url);
 
-        log.info(this.getClass().getName() + "deletePost ended");
+        log.info(this.getClass().getName() + "deletePost end");
 
-        return res;
+        return "redirect";
+    }
+
+    @RequestMapping("/")
+    public String main() {
+        return "index";
     }
 }
