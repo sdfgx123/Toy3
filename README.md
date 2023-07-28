@@ -12,7 +12,7 @@
 
 ### 프로젝트 체크리스트
 
-1. 😀 게시판 기능 명세서
+1. 게시판 기능 명세서
     1. 회원가입
         - [ ]  [회원가입 페이지] 회원가입 구현 (id, username, password, email, nickName, role, createdAt, updatedAt) - role은 새싹 회원과 우수회원으로 구분 (디폴트 : 새싹회원, 게시글 수 10 개 이상 우수 회원)
     2. 로그인
